@@ -80,10 +80,8 @@ def log_task(messages):
             if msg.startswith('$GPGGA'):
                 fields = msg.split(',')
                 latest_gps_time = fields[1]
-                latest_gps_lat = '{} {}'.format(
-                    round(float(fields[2]), 3), fields[3])
-                latest_gps_lon = '{} {}'.format(
-                    round(float(fields[4]), 3), fields[5])
+                latest_gps_lat = '{} {}'.format(fields[2], fields[3])
+                latest_gps_lon = '{} {}'.format(fields[4], fields[5])
 
             # draw ui
             print('\033[H')
