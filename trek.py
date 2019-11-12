@@ -84,6 +84,7 @@ def log_task(messages):
                 latest_gps_lon = '{} {}'.format(fields[4], fields[5])
 
             # draw ui
+            print('\033[2J')
             print('\033[H')
             print('GPS Time:', latest_gps_time)
             print('GPS Lat:', latest_gps_lat)
