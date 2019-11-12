@@ -82,13 +82,13 @@ def log_task(messages):
                 latest_gps_time = fields[1]
                 try:
                     latest_gps_lat = '{} {}'.format(
-                        float(fields[2]), fields[3])
+                        round(float(fields[2])/100, 3), fields[3])
                 except ValueError:
                     pass
 
                 try:
                     latest_gps_lon = '{} {}'.format(
-                        float(fields[4]), fields[5])
+                        round(float(fields[4])/100, 3), fields[5])
                 except ValueError:
                     pass
 
