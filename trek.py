@@ -30,6 +30,17 @@ csq_good = 19
 csq_excellent = 30
 
 
+def csq_name(csq):
+    if csq <= csq_marginal:
+        return 'marginal'
+    elif csq <= csq_ok:
+        return 'ok'
+    elif csq <= csq_good:
+        return 'good'
+    elif csq <= csq_excellent:
+        return 'excellent'
+
+
 def make_csq_display(csq):
     display = []
 
@@ -54,7 +65,8 @@ def make_csq_display(csq):
             display.append('.')
 
     # reset color and add closing ]
-    display.append('\033[0m] {} / {}'.format(csq, csq_excellent))
+    display.append('\033[0m] {} / {} ({})'.format(csq,
+                                                  csq_excellent, csq_name(csq)))
     return ''.join(display)
 
 
