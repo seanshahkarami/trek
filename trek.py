@@ -100,7 +100,7 @@ def main():
     devices = glob('/dev/cu.usbmodem*01')
 
     if len(devices) < 2:
-        print('Could not find at least 2 serial devices.')
+        print('Could not find at least 2 serial devices. Please make sure a modem and GPS are connected.')
         sys.exit(1)
 
     for device in devices:
