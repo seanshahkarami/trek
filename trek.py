@@ -107,9 +107,9 @@ def log_task(messages):
                 except ValueError:
                     pass
 
-                if time.monotonic() - time_since_gps_data >= 30:
-                    latest_gps_lat = ''
-                    latest_gps_lon = ''
+            if time.monotonic() - time_since_gps_data >= 30:
+                latest_gps_lat = ''
+                latest_gps_lon = ''
 
             # draw ui
             print('\033[2J')
