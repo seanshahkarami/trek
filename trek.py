@@ -71,7 +71,8 @@ def make_csq_display(csq):
 
 
 def log_task(messages):
-    with open('data.log', 'a') as logfile:
+    logpath = 'data.log'
+    with open(logpath, 'a') as logfile:
         latest_csq = 0
         latest_gps_time = ''
         latest_gps_lat = ''
@@ -111,6 +112,7 @@ def log_task(messages):
             print('GPS Lat:', latest_gps_lat)
             print('GPS Lon:', latest_gps_lon)
             print('CSQ:', make_csq_display(latest_csq))
+            print('Log:', logpath)
 
 
 def main():
