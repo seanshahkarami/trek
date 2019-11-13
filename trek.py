@@ -2,7 +2,7 @@ from glob import glob
 from serial import Serial
 from threading import Thread, Event
 from queue import Queue
-from time import sleep, time
+import time
 import re
 import sys
 
@@ -21,7 +21,7 @@ def device_task(device, messages, done):
                 if len(line) == 0:
                     break
                 messages.put(line.strip())
-            sleep(1)
+            time.sleep(1)
 
 
 csq_marginal = 9
@@ -79,31 +79,31 @@ def log_task(messages):
         latest_gps_time = ''
         latest_gps_lat = ''
         latest_gps_lon = ''
+        time_since_modem_data = time.monotonic()
+        time_since_gps_data = time.monotonic()
 
         while True:
             msg = messages.get()
 
             # log lines for later
             if msg.startswith('+CSQ') or msg.startswith('$GPGGA'):
-                print(int(time()), msg, file=logfile)
+                print(int(time.time()), msg, file=logfile)
 
             match = re.search(r'CSQ.*?(\d+),(\d+)', msg)
 
             if match is not None:
                 latest_csq = int(match.group(1))
+                time_since_modem_data = time.monotonic()
 
             if msg.startswith('$GPGGA'):
                 fields = msg.split(',')
                 latest_gps_time = fields[1]
                 try:
-                    latest_gps_lat = '{} {}'.format(
-                        round(float(fields[2])/100, 3), fields[3])
-                except ValueError:
-                    pass
-
-                try:
-                    latest_gps_lon = '{} {}'.format(
-                        round(float(fields[4])/100, 3), fields[5])
+                    lat = round(float(fields[2])/100, 3)
+                    lon = round(float(fields[4])/100, 3)
+                    latest_gps_lat = '{} {}'.format(lat, fields[3])
+                    latest_gps_lon = '{} {}'.format(lon, fields[5])
+                    time_since_gps_data = time.monotonic()
                 except ValueError:
                     pass
 
@@ -115,6 +115,11 @@ def log_task(messages):
             print('GPS Lon:', latest_gps_lon)
             print('CSQ:', make_csq_display(latest_csq))
             print('Log File:', logpath)
+            print()
+            print('Time Since GPS Data: {}s ago'.format(
+                round(time.monotonic() - time_since_gps_data)))
+            print('Time Since Modem Data: {}s ago'.format(
+                round(time.monotonic() - time_since_modem_data)))
 
 
 def main():
