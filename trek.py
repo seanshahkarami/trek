@@ -79,8 +79,8 @@ def log_task(messages):
         latest_gps_time = ''
         latest_gps_lat = ''
         latest_gps_lon = ''
-        time_since_modem_data = time.monotonic()
-        time_since_gps_data = time.monotonic()
+        time_since_modem_data = time.monotonic() - 60
+        time_since_gps_data = time.monotonic() - 60
 
         while True:
             msg = messages.get()
@@ -106,6 +106,10 @@ def log_task(messages):
                     time_since_gps_data = time.monotonic()
                 except ValueError:
                     pass
+
+                if time.monotonic() - time_since_gps_data >= 30:
+                    latest_gps_lat = ''
+                    latest_gps_lon = ''
 
             # draw ui
             print('\033[2J')
