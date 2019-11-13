@@ -39,6 +39,8 @@ def csq_name(csq):
         return 'good'
     elif csq <= csq_excellent:
         return 'excellent'
+    else:
+        return 'searching'
 
 
 def make_csq_display(csq):
@@ -112,7 +114,7 @@ def log_task(messages):
             print('GPS Lat:', latest_gps_lat)
             print('GPS Lon:', latest_gps_lon)
             print('CSQ:', make_csq_display(latest_csq))
-            print('Log:', logpath)
+            print('Log File:', logpath)
 
 
 def main():
